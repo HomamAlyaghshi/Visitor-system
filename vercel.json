@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd visitor-system && npm run build",
+  "outputDirectory": "visitor-system/dist",
+  "installCommand": "cd visitor-system && npm install",
+  "framework": "vite"
+}
