@@ -31,55 +31,55 @@ class NotificationService {
   // Email Templates
   private emailTemplates: Record<string, EmailTemplate> = {
     invitation: {
-      subject: `دعوة زيارة - ${visitorName}`,
+      subject: 'دعوة زيارة - {visitorName}',
       body: `
-السلام عليكم ${visitorName}،
+السلام عليكم {visitorName},
 
-يسرنا دعوتك لزيارة ${companyName} في التاريخ ${visitDate} الساعة ${visitTime}.
+يسرنا دعوتك لزيارة {companyName} في التاريخ {visitDate} الساعة {visitTime}.
 
 تفاصيل الزيارة:
-- الاسم: ${visitorName}
-- المسمى الوظيفي: ${visitorTitle}
-- تاريخ الزيارة: ${visitDate}
-- وقت الزيارة: ${visitTime}
-- الطابق: ${floorNumber}
-- المكتب: ${officeNumber}
-- الإدارة: ${directorate}
-- سبب الزيارة: ${reasonForVisit}
+- الاسم: {visitorName}
+- المسمى الوظيفي: {visitorTitle}
+- تاريخ الزيارة: {visitDate}
+- وقت الزيارة: {visitTime}
+- الطابق: {floorNumber}
+- المكتب: {officeNumber}
+- الإدارة: {directorate}
+- سبب الزيارة: {reasonForVisit}
 
 يرجى إحضار رمز QR المرفق لتسهيل عملية تسجيل الدخول.
 
 مع أطيب التحيات،
 فريق الاستقبال
-${companyName}
+{companyName}
       `
     },
     checkIn: {
-      subject: `تم تسجيل دخولك - ${visitorName}`,
+      subject: 'تم تسجيل دخولك - {visitorName}',
       body: `
-عزيزي ${visitorName}،
+عزيزي {visitorName},
 
-نؤكد لك أنه تم تسجيل دخولك بنجاح في ${companyName} بتاريخ ${checkInDate} الساعة ${checkInTime}.
+نؤكد لك أنه تم تسجيل دخولك بنجاح في {companyName} بتاريخ {checkInDate} الساعة {checkInTime}.
 
 نشكرك على تعاونك، ونتمنى لك زيارة موفقة.
 
 مع أطيب التحيات،
-${companyName}
+{companyName}
       `
     },
     reminder: {
-      subject: `تذكير بالدعوة - ${visitorName}`,
+      subject: 'تذكير بالدعوة - {visitorName}',
       body: `
-عزيزي ${visitorName}،
+عزيزي {visitorName},
 
-هذا تذكير بدعوتك لزيارة ${companyName} غداً ${visitDate} الساعة ${visitTime}.
+هذا تذكير بدعوتك لزيارة {companyName} غداً {visitDate} الساعة {visitTime}.
 
 يرجى عدم نسيان إحضار رمز QR لتسهيل عملية تسجيل الدخول.
 
 نتطلع لرؤيتك!
 
 مع أطيب التحيات،
-${companyName}
+{companyName}
       `
     }
   };
@@ -87,24 +87,24 @@ ${companyName}
   // SMS Templates
   private smsTemplates: Record<string, SMSTemplate> = {
     invitation: {
-      message: `${companyName}: دعوة زيارة ${visitDate} ${visitTime}. رمز: ${qrCode}`
+      message: '{companyName}: دعوة زيارة {visitDate} {visitTime}. رمز: {qrCode}'
     },
     checkIn: {
-      message: `${companyName}: شكراً لتسجيل دخولك ${visitorName} في ${checkInTime}`
+      message: '{companyName}: شكراً لتسجيل دخولك {visitorName} في {checkInTime}'
     },
     reminder: {
-      message: `${companyName}: تذكير دعوة غداً ${visitDate} ${visitTime}`
+      message: '{companyName}: تذكير دعوة غداً {visitDate} {visitTime}'
     }
   };
 
   // Send Email
   public async sendEmail(
     to: string, 
-    template: keyof typeof this.emailTemplates, 
+    templateKey: keyof typeof this.emailTemplates, 
     data: Record<string, string>
   ): Promise<boolean> {
     try {
-      const template = this.emailTemplates[template];
+      const template = this.emailTemplates[templateKey];
       const emailBody = this.populateTemplate(template.body, data);
       const emailSubject = this.populateTemplate(template.subject, data);
 
@@ -131,11 +131,11 @@ ${companyName}
   // Send SMS
   public async sendSMS(
     to: string,
-    template: keyof typeof this.smsTemplates,
+    templateKey: keyof typeof this.smsTemplates,
     data: Record<string, string>
   ): Promise<boolean> {
     try {
-      const template = this.smsTemplates[template];
+      const template = this.smsTemplates[templateKey];
       const message = this.populateTemplate(template.message, data);
 
       // In a real implementation, you would use an SMS service like:
